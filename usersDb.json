@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Alex",
+      "email": "Alex@asdasd.cl",
+      "phone": "96827027"
+    },
+    {
+      "id": 2,
+      "name": "Juan",
+      "email": "juan@asdasd.cl",
+      "phone": "65295442"
+    },
+    {
+      "id": 3,
+      "name": "Alejandra",
+      "email": "alejandra@asdasd.cl",
+      "phone": "58021612"
+    }
+  ]
+}
