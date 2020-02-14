@@ -1,9 +1,24 @@
 <template>
-  <div></div>
+  <div>
+    <UserCard v-for="user in users" :key="user.id" :user="user" />
+  </div>
 </template>
 
 <script>
-export default {};
+import UserCard from "@/components/UserCard.vue";
+import { mapState } from "vuex";
+
+export default {
+  components: {
+    UserCard
+  },
+  computed: {
+    ...mapState(["users"])
+  },
+  created() {
+    this.$store.dispatch("fetchUsers");
+  }
+};
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>

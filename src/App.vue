@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
       <v-btn
         v-for="link in links"
-        :key="link"
+        :key="link.id"
         text
         rounded
         class="my-2"
@@ -21,7 +21,7 @@
       <v-layout justify-center wrap>
         <v-btn
           v-for="link in links"
-          :key="link"
+          :key="link.id"
           color="white"
           text
           rounded
@@ -48,12 +48,24 @@ export default {
     return {
       links: [
         {
+          id: 1,
           label: "Home",
           name: "home"
         },
         {
+          id: 2,
           label: "Login",
           name: "login"
+        },
+        {
+          id: 3,
+          label: "Users List",
+          name: "users"
+        },
+        {
+          id: 4,
+          label: "Create new User",
+          name: "createUser"
         }
       ]
     };
