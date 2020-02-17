@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <v-toolbar-title>Vuetify Dashboard</v-toolbar-title>
+      <v-toolbar-title>User CRUD</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
         v-for="link in links"
@@ -10,9 +10,7 @@
         rounded
         class="my-2"
         :to="{ name: link.name }"
-      >
-        {{ link.label }}
-      </v-btn>
+      >{{ link.label }}</v-btn>
     </v-app-bar>
     <v-content>
       <router-view></router-view>
@@ -27,11 +25,10 @@
           rounded
           class="my-2"
           :to="{ name: link.name }"
-          >{{ link.label }}</v-btn
-        >
+        >{{ link.label }}</v-btn>
         <v-flex primary lighten-2 py-4 text-center white--text xs12>
           {{ new Date().getFullYear() }} —
-          <strong>Vuetify Dashboard</strong>
+          <strong>User CRUD</strong>
         </v-flex>
       </v-layout>
     </v-footer>

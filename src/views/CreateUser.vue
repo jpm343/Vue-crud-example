@@ -9,32 +9,42 @@
           <v-text-field
             v-model="user.name"
             label="Name"
+            required
+            :error-messages="nameErrors"
+            :counter="10"
             prepend-icon="mdi-account-circle"
           />
           <v-text-field
             v-model="user.phone"
             label="E-Mail"
+            required
+            :error-messages="phoneErrors"
+            :counter="11"
             prepend-icon="mdi-cellphone"
           />
-          <v-text-field
-            v-model="user.email"
-            label="Phone"
-            prepend-icon="mdi-email"
-          />
+          <v-text-field v-model="user.email" label="Phone" prepend-icon="mdi-email" />
         </v-form>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
-        <v-btn @click.native="createUser()" type="submit" color="success"
-          >Create</v-btn
-        >
+        <v-btn @click.native="createUser()" type="submit" color="success">Create</v-btn>
       </v-card-actions>
     </v-card>
   </div>
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
+import { required, maxLenght, email } from "vuelidate/lib/validators";
+
 export default {
+  mixins: [validationMixin],
+
+  validations: {
+    name: { required, maxLenght: maxLenght(10) },
+    email: { required, email }
+  },
+
   data() {
     return {
       user: this.newUser()
@@ -56,6 +66,14 @@ export default {
         email: "",
         phone: ""
       };
+    }
+  },
+  computed: {
+    nameErrors() {
+      return 1;
+    },
+    phoneErrors() {
+      return 1;
     }
   }
 };

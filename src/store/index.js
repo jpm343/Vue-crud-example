@@ -28,11 +28,13 @@ export default new Vuex.Store({
       if (index > -1) {
         state.users.splice(index, 1);
       }
+    },
+    UPDATE_USER(state, user) {
+      state.users[user.id] = user;
     }
   },
   actions: {
     fetchUsers({ commit }) {
-      console.log("fetching");
       UserService.getUsers()
         .then(response => {
           commit("SET_USERS", response.data);
@@ -64,6 +66,16 @@ export default new Vuex.Store({
       UserService.deleteUser(user).then(() => {
         commit("DELETE_USER", user);
       });
+    },
+    updateUser({ commit }, user) {
+      console.log(user);
+      UserService.updateUser(user)
+        .then(() => {
+          commit("UPDATE_USER", user);
+        })
+        .catch(error => {
+          console.log("there was an error updating user: " + error.message);
+        });
     }
   },
   modules: {}
