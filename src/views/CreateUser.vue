@@ -7,27 +7,44 @@
       <v-card-text>
         <v-form @submit.prevent="createUser">
           <v-text-field
-            v-model="user.name"
+            v-model="editedUser.name"
             label="Name"
             required
-            :error-messages="nameErrors"
             :counter="10"
+            :error-messages="nameErrors"
+            @input="$v.editedUser.name.$touch()"
+            @blur="$v.editedUser.name.$touch()"
             prepend-icon="mdi-account-circle"
           />
           <v-text-field
-            v-model="user.phone"
-            label="E-Mail"
+            v-model="editedUser.phone"
+            label="Phone"
             required
-            :error-messages="phoneErrors"
             :counter="11"
+            :error-messages="phoneErrors"
+            @input="$v.editedUser.phone.$touch()"
+            @blur="$v.editedUser.phone.$touch()"
             prepend-icon="mdi-cellphone"
           />
-          <v-text-field v-model="user.email" label="Phone" prepend-icon="mdi-email" />
+          <v-text-field
+            v-model="editedUser.email"
+            label="E-Mail"
+            :error-messages="emailErrors"
+            @input="$v.editedUser.email.$touch()"
+            @blur="$v.editedUser.email.$touch()"
+            prepend-icon="mdi-email"
+          />
         </v-form>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
-        <v-btn @click.native="createUser()" type="submit" color="success">Create</v-btn>
+        <v-btn
+          :disabled="$v.editedUser.$error"
+          @click.native="createUser()"
+          type="submit"
+          color="success"
+          >Create</v-btn
+        >
       </v-card-actions>
     </v-card>
   </div>
@@ -35,29 +52,27 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, maxLenght, email } from "vuelidate/lib/validators";
+import { UserFormValidationMixin } from "@/mixins/UserFormValidationMixin.js";
 
 export default {
-  mixins: [validationMixin],
-
-  validations: {
-    name: { required, maxLenght: maxLenght(10) },
-    email: { required, email }
-  },
+  mixins: [validationMixin, UserFormValidationMixin],
 
   data() {
     return {
-      user: this.newUser()
+      editedUser: this.newUser()
     };
   },
   methods: {
     createUser() {
-      this.$store.dispatch("createUser", this.user).then(() => {
-        this.$router.push({
-          name: "users"
+      this.$v.$touch();
+      if (!this.$v.editedUser.$anyError) {
+        this.$store.dispatch("createUser", this.editedUser).then(() => {
+          this.$router.push({
+            name: "users"
+          });
+          this.editedUser = this.newUser();
         });
-        this.user = this.newUser();
-      });
+      }
     },
     newUser() {
       return {
@@ -66,14 +81,6 @@ export default {
         email: "",
         phone: ""
       };
-    }
-  },
-  computed: {
-    nameErrors() {
-      return 1;
-    },
-    phoneErrors() {
-      return 1;
     }
   }
 };
